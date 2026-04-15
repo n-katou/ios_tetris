@@ -16,8 +16,9 @@ struct BoardView: View {
                     }
                 }
 
-                // Locked cells
+                // Locked cells (skip clearing rows — replaced by flash)
                 for row in 0..<Board.rows {
+                    guard !vm.clearingRows.contains(row) else { continue }
                     for col in 0..<Board.columns {
                         if let color = vm.board[row][col] {
                             drawCell(ctx: ctx, row: row, col: col, color: color, size: cellSize)
@@ -39,6 +40,37 @@ struct BoardView: View {
                         drawCell(ctx: ctx, row: cell.row, col: cell.col, color: vm.current.type.color, size: cellSize)
                     }
                 }
+
+                // Flash overlay — clearing rows glow bright white
+                for row in vm.clearingRows {
+                    // Outer glow
+                    let glowRect = CGRect(
+                        x: 0,
+                        y: CGFloat(row) * cellSize - cellSize * 0.15,
+                        width: CGFloat(Board.columns) * cellSize,
+                        height: cellSize * 1.3
+                    )
+                    ctx.fill(Path(glowRect), with: .color(Color.white.opacity(0.25)))
+                    // Core flash
+                    let flashRect = CGRect(
+                        x: 0, y: CGFloat(row) * cellSize,
+                        width: CGFloat(Board.columns) * cellSize,
+                        height: cellSize
+                    )
+                    ctx.fill(Path(flashRect), with: .color(Color.white.opacity(0.88)))
+                }
+
+                // Particles
+                for p in vm.particles {
+                    let px = CGFloat(p.col) * cellSize - p.size / 2
+                    let py = CGFloat(p.row) * cellSize - p.size / 2
+                    let rect = CGRect(x: px, y: py, width: p.size, height: p.size)
+                    // Glow pass (larger, semi-transparent)
+                    let glowRect = rect.insetBy(dx: -p.size * 0.6, dy: -p.size * 0.6)
+                    ctx.fill(Path(glowRect), with: .color(p.color.opacity(p.alpha * 0.35)))
+                    // Core particle
+                    ctx.fill(Path(rect), with: .color(p.color.opacity(p.alpha)))
+                }
             }
             .frame(width: CGFloat(Board.columns) * cellSize,
                    height: CGFloat(Board.rows) * cellSize)
@@ -54,15 +86,12 @@ struct BoardView: View {
 
     private func drawCell(ctx: GraphicsContext, row: Int, col: Int, color: Color, size: CGFloat) {
         let rect = cellRect(row: row, col: col, size: size).insetBy(dx: 1, dy: 1)
-        // Fill
         ctx.fill(Path(rect), with: .color(color))
-        // Highlight top-left
         var highlight = Path()
         highlight.move(to: CGPoint(x: rect.minX, y: rect.maxY))
         highlight.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
         highlight.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
         ctx.stroke(highlight, with: .color(Color.white.opacity(0.5)), lineWidth: 2)
-        // Shadow bottom-right
         var shadow = Path()
         shadow.move(to: CGPoint(x: rect.maxX, y: rect.minY))
         shadow.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
