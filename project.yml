@@ -1,0 +1,30 @@
+name: ios_tetris
+options:
+  bundleIdPrefix: com.tetris
+  deploymentTarget:
+    iOS: "16.0"
+  defaultConfig: Debug
+
+settings:
+  SWIFT_VERSION: "5.9"
+
+targets:
+  ios_tetris:
+    type: application
+    platform: iOS
+    sources:
+      - path: ios_tetris
+    info:
+      path: ios_tetris/Info.plist
+      properties:
+        CFBundleDisplayName: Tetris
+        UILaunchStoryboardName: LaunchScreen
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIStatusBarStyle: UIStatusBarStyleLightContent
+        UIViewControllerBasedStatusBarAppearance: false
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.tetris.ios-tetris
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      CODE_SIGN_STYLE: Automatic
+      DEVELOPMENT_TEAM: 6373UDNWPX
