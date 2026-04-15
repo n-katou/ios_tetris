@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		08BB37BB5AC6D8A4009C95E9 /* ios_tetrisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B0CE1B3DF12FF5AD11AC30 /* ios_tetrisApp.swift */; };
+		0CFE258905DE1F546F686010 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6209526E4E1501E700B8AA79 /* OnboardingView.swift */; };
 		10933D1CEBC4BF838F24DD11 /* Tetromino.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C55989F59D4AB430D1F8547 /* Tetromino.swift */; };
 		1A5988D9DACA9996C13CC947 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AF56BAABD3F196217917A5 /* BoardView.swift */; };
 		303F5743541FF14D96C8DE7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3AAD079FCC6F0794C3A81FC7 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 		35B3E1755797F5E81EC55BC9 /* BGMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMPlayer.swift; sourceTree = "<group>"; };
 		3AAD079FCC6F0794C3A81FC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		44E0559F395037659BE3A3BC /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		6209526E4E1501E700B8AA79 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		808454DAB05D7E2E1EF10FA0 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		87AF56BAABD3F196217917A5 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		9C55989F59D4AB430D1F8547 /* Tetromino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tetromino.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				44E0559F395037659BE3A3BC /* GameView.swift */,
 				B0D0DB6AC0C4B2D48FB45395 /* HighScoreView.swift */,
 				079FC90A3566F42545565FB7 /* NextPieceView.swift */,
+				6209526E4E1501E700B8AA79 /* OnboardingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 				BE0E768339DC2D669D06DDD5 /* Haptics.swift in Sources */,
 				BF132982E2E6B5371E5E18A6 /* HighScoreView.swift in Sources */,
 				E0E01CA68777169E1F25CA7B /* NextPieceView.swift in Sources */,
+				0CFE258905DE1F546F686010 /* OnboardingView.swift in Sources */,
 				E75181D882CF4D3DFCB7048C /* SFXPlayer.swift in Sources */,
 				E585542AAC65864A30F37702 /* ScoreStore.swift in Sources */,
 				10933D1CEBC4BF838F24DD11 /* Tetromino.swift in Sources */,
