@@ -15,15 +15,24 @@ struct NextPieceView: View {
                 .tracking(2)
 
             Canvas { ctx, _ in
-                for cell in piece.cells {
+                // Use raw rotation offsets (no spawn origin) so pieces don't overflow
+                let rawCells = piece.type.rotations[piece.rotation]
+                let minR = rawCells.map(\.row).min() ?? 0
+                let maxR = rawCells.map(\.row).max() ?? 0
+                let minC = rawCells.map(\.col).min() ?? 0
+                let maxC = rawCells.map(\.col).max() ?? 0
+                // Center the bounding box inside the preview area
+                let rowOff = (previewRows - (maxR - minR + 1)) / 2 - minR
+                let colOff = (previewCols - (maxC - minC + 1)) / 2 - minC
+
+                for cell in rawCells {
                     let rect = CGRect(
-                        x: CGFloat(cell.col) * cellSize + 2,
-                        y: CGFloat(cell.row) * cellSize + 2,
+                        x: CGFloat(cell.col + colOff) * cellSize + 2,
+                        y: CGFloat(cell.row + rowOff) * cellSize + 2,
                         width: cellSize - 4,
                         height: cellSize - 4
                     )
                     ctx.fill(Path(rect), with: .color(piece.type.color))
-                    // highlight
                     var hl = Path()
                     hl.move(to: CGPoint(x: rect.minX, y: rect.maxY))
                     hl.addLine(to: CGPoint(x: rect.minX, y: rect.minY))

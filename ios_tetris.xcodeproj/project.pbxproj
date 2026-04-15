@@ -17,6 +17,7 @@
 		E0E01CA68777169E1F25CA7B /* NextPieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079FC90A3566F42545565FB7 /* NextPieceView.swift */; };
 		E33E0FD9B98F38142B4751A6 /* ControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E100B977D062E4D98355A33 /* ControlsView.swift */; };
 		E585542AAC65864A30F37702 /* ScoreStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80106D7F4EEBAB8A3263872 /* ScoreStore.swift */; };
+		E75181D882CF4D3DFCB7048C /* SFXPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F992C402314EF7C58E3F1820 /* SFXPlayer.swift */; };
 		E7E31DCA74755EA1816B98FD /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808454DAB05D7E2E1EF10FA0 /* GameViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		A8B0CE1B3DF12FF5AD11AC30 /* ios_tetrisApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios_tetrisApp.swift; sourceTree = "<group>"; };
 		B0D0DB6AC0C4B2D48FB45395 /* HighScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreView.swift; sourceTree = "<group>"; };
 		D80106D7F4EEBAB8A3263872 /* ScoreStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreStore.swift; sourceTree = "<group>"; };
+		F992C402314EF7C58E3F1820 /* SFXPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFXPlayer.swift; sourceTree = "<group>"; };
 		FEC634B24D47D582C48E1D21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +77,7 @@
 			children = (
 				35B3E1755797F5E81EC55BC9 /* BGMPlayer.swift */,
 				D80106D7F4EEBAB8A3263872 /* ScoreStore.swift */,
+				F992C402314EF7C58E3F1820 /* SFXPlayer.swift */,
 				9C55989F59D4AB430D1F8547 /* Tetromino.swift */,
 			);
 			path = Models;
@@ -174,6 +177,7 @@
 				E7E31DCA74755EA1816B98FD /* GameViewModel.swift in Sources */,
 				BF132982E2E6B5371E5E18A6 /* HighScoreView.swift in Sources */,
 				E0E01CA68777169E1F25CA7B /* NextPieceView.swift in Sources */,
+				E75181D882CF4D3DFCB7048C /* SFXPlayer.swift in Sources */,
 				E585542AAC65864A30F37702 /* ScoreStore.swift in Sources */,
 				10933D1CEBC4BF838F24DD11 /* Tetromino.swift in Sources */,
 				08BB37BB5AC6D8A4009C95E9 /* ios_tetrisApp.swift in Sources */,

@@ -139,6 +139,7 @@ final class GameViewModel: ObservableObject {
         score += points
         lines += cleared
         level = lines / 10 + 1
+        SFXPlayer.shared.playClear(lines: cleared)
 
         for row in full { board[row] = Array(repeating: nil, count: Board.columns) }
         // Collapse
