@@ -30,6 +30,8 @@ final class GameViewModel: ObservableObject {
         updateGhost()
         state = .playing
         startTimer()
+        BGMPlayer.shared.stop()
+        BGMPlayer.shared.play()
     }
 
     func togglePause() {
@@ -37,9 +39,11 @@ final class GameViewModel: ObservableObject {
         case .playing:
             state = .paused
             timer?.cancel()
+            BGMPlayer.shared.pause()
         case .paused:
             state = .playing
             startTimer()
+            BGMPlayer.shared.resume()
         default: break
         }
     }
@@ -162,6 +166,7 @@ final class GameViewModel: ObservableObject {
 
     private func endGame() {
         timer?.cancel()
+        BGMPlayer.shared.stop()
         ScoreStore.shared.save(score: score, level: level, lines: lines)
     }
 
