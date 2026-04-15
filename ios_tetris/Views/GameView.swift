@@ -3,11 +3,17 @@ import SwiftUI
 struct GameView: View {
     @StateObject private var vm = GameViewModel()
     @State private var showHighScore = false
+    @State private var showSettings  = false
     @State private var comboOpacity: Double = 0
+    @State private var popupOpacity: Double = 0
+    @State private var popupOffset: CGFloat = 0
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            // Level-based background gradient
+            levelBackground
+                .ignoresSafeArea()
+                .animation(.easeInOut(duration: 1.2), value: vm.level)
 
             VStack(spacing: 0) {
                 topBar
@@ -21,6 +27,20 @@ struct GameView: View {
                         .onTapGesture { if vm.state == .playing { vm.rotate() } }
                         .gesture(swipeGesture)
 
+                    // Score popup
+                    if let text = vm.scorePopupText {
+                        Text(text)
+                            .font(.system(size: 18, weight: .black, design: .rounded))
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(
+                                LinearGradient(colors: [.yellow, .orange],
+                                               startPoint: .top, endPoint: .bottom))
+                            .shadow(color: .orange.opacity(0.8), radius: 8)
+                            .opacity(popupOpacity)
+                            .offset(y: popupOffset)
+                            .allowsHitTesting(false)
+                    }
+
                     // Combo popup
                     if vm.combo > 1 {
                         Text("COMBO ×\(vm.combo)!")
@@ -30,6 +50,7 @@ struct GameView: View {
                                                startPoint: .leading, endPoint: .trailing))
                             .shadow(color: .orange.opacity(0.8), radius: 8)
                             .opacity(comboOpacity)
+                            .offset(y: 40)
                             .allowsHitTesting(false)
                     }
                 }
@@ -44,11 +65,37 @@ struct GameView: View {
             if vm.state == .gameOver  { gameOverOverlay }
         }
         .sheet(isPresented: $showHighScore) { HighScoreView() }
+        .sheet(isPresented: $showSettings)  { SettingsView() }
         .preferredColorScheme(.dark)
         .onChange(of: vm.combo) { newCombo in
             guard newCombo > 1 else { comboOpacity = 0; return }
             comboOpacity = 1
             withAnimation(.easeOut(duration: 0.6).delay(0.4)) { comboOpacity = 0 }
+        }
+        .onChange(of: vm.scorePopupText) { text in
+            guard text != nil else { return }
+            popupOpacity = 1; popupOffset = 0
+            withAnimation(.easeOut(duration: 0.7).delay(0.3)) {
+                popupOpacity = 0; popupOffset = -30
+            }
+        }
+    }
+
+    // MARK: - Level background
+
+    private var levelBackground: some View {
+        let colors: [Color] = levelGradientColors(level: vm.level)
+        return LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom)
+    }
+
+    private func levelGradientColors(level: Int) -> [Color] {
+        switch level {
+        case 1...2:  return [Color(red:0.02, green:0.02, blue:0.10), Color.black]
+        case 3...4:  return [Color(red:0.00, green:0.10, blue:0.12), Color.black]
+        case 5...6:  return [Color(red:0.05, green:0.12, blue:0.00), Color.black]
+        case 7...8:  return [Color(red:0.14, green:0.06, blue:0.00), Color.black]
+        case 9...10: return [Color(red:0.14, green:0.00, blue:0.00), Color.black]
+        default:     return [Color(red:0.16, green:0.00, blue:0.16), Color.black]
         }
     }
 
@@ -75,7 +122,7 @@ struct GameView: View {
 
             Spacer()
 
-            // Pause / High score
+            // Pause / High score / Settings
             VStack(spacing: 10) {
                 Button { showHighScore = true } label: {
                     Image(systemName: "trophy")
@@ -92,6 +139,13 @@ struct GameView: View {
                         .clipShape(Circle())
                 }
                 .disabled(vm.state == .idle || vm.state == .gameOver)
+                Button { showSettings = true } label: {
+                    Image(systemName: "gearshape")
+                        .foregroundColor(.white)
+                        .frame(width: 36, height: 36)
+                        .background(Color.white.opacity(0.1))
+                        .clipShape(Circle())
+                }
             }
         }
     }
@@ -123,6 +177,14 @@ struct GameView: View {
         overlayContainer {
             Text("GAME OVER")
                 .font(.system(size: 32, weight: .bold)).foregroundColor(.red)
+            if vm.isNewRecord {
+                Text("NEW RECORD!")
+                    .font(.system(size: 20, weight: .black, design: .rounded))
+                    .foregroundStyle(
+                        LinearGradient(colors: [.yellow, .orange],
+                                       startPoint: .leading, endPoint: .trailing))
+                    .shadow(color: .orange.opacity(0.9), radius: 10)
+            }
             VStack(spacing: 4) {
                 Text("スコア: \(vm.score)").foregroundColor(.white).font(.title2)
                 Text("Lv.\(vm.level)  \(vm.lines) lines").foregroundColor(.gray)

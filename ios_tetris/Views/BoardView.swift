@@ -27,10 +27,12 @@ struct BoardView: View {
                 }
 
                 // Ghost piece
-                for cell in vm.ghost {
-                    if cell.row >= 0 {
-                        let rect = cellRect(row: cell.row, col: cell.col, size: cellSize).insetBy(dx: 1, dy: 1)
-                        ctx.stroke(Path(rect), with: .color(vm.current.type.color.opacity(0.4)), lineWidth: 2)
+                if AppSettings.shared.ghostEnabled {
+                    for cell in vm.ghost {
+                        if cell.row >= 0 {
+                            let rect = cellRect(row: cell.row, col: cell.col, size: cellSize).insetBy(dx: 1, dy: 1)
+                            ctx.stroke(Path(rect), with: .color(vm.current.type.color.opacity(0.4)), lineWidth: 2)
+                        }
                     }
                 }
 

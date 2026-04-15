@@ -116,3 +116,16 @@ struct Tetromino {
         spawn(TetrominoType.allCases.randomElement()!)
     }
 }
+
+// MARK: - 7-bag randomizer
+/// Deals all 7 piece types in random order before repeating — prevents long droughts.
+struct PieceBag {
+    private var bag: [TetrominoType] = []
+
+    mutating func next() -> Tetromino {
+        if bag.isEmpty { bag = TetrominoType.allCases.shuffled() }
+        return Tetromino.spawn(bag.removeFirst())
+    }
+
+    mutating func reset() { bag = [] }
+}
