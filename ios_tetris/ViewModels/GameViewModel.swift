@@ -85,6 +85,7 @@ final class GameViewModel: ObservableObject {
         guard state == .playing else { return }
         while performMove(dRow: 1) {}
         cancelLockTimer()
+        Haptics.hardDrop()
         executeLock()
     }
 
@@ -100,7 +101,7 @@ final class GameViewModel: ObservableObject {
                 if isValid(k) { current = k; success = true; break }
             }
         }
-        if success { updateGhost(); tryResetLockTimer() }
+        if success { updateGhost(); tryResetLockTimer(); Haptics.rotate() }
     }
 
     func holdPiece() {
@@ -118,6 +119,7 @@ final class GameViewModel: ObservableObject {
         }
         lockResets = 0
         updateGhost()
+        Haptics.hold()
     }
 
     // MARK: - Drop timer
@@ -173,7 +175,7 @@ final class GameViewModel: ObservableObject {
     private func move(dCol: Int) -> Bool {
         guard state == .playing else { return false }
         let result = performMove(dCol: dCol)
-        if result { tryResetLockTimer() }
+        if result { tryResetLockTimer(); Haptics.move() }
         return result
     }
 
@@ -209,12 +211,14 @@ final class GameViewModel: ObservableObject {
 
         if full.isEmpty {
             comboCount = 0; combo = 0
+            Haptics.lock()
             spawnNext()
         } else {
             // Combo
             comboCount += 1
             combo = comboCount
             let cleared   = full.count
+            Haptics.lineClear(count: cleared)
             let base      = [0, 100, 300, 500, 800][min(cleared, 4)] * level
             let comboBonus = comboCount > 1 ? (comboCount - 1) * 50 * level : 0
             score += base + comboBonus
@@ -253,6 +257,7 @@ final class GameViewModel: ObservableObject {
     private func endGame() {
         dropTimer?.cancel(); lockTimer?.cancel(); particleTimer?.cancel()
         BGMPlayer.shared.stop()
+        Haptics.gameOver()
         ScoreStore.shared.save(score: score, level: level, lines: lines)
     }
 
