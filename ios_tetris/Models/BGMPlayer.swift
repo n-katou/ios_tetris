@@ -148,7 +148,7 @@ final class BGMPlayer {
         songs.append(Song(name: "Folk Dance", bpm: 168, notes: folk))
 
         // Suppress unused-variable warnings
-        _ = [E4, F4, G4, Fs4]
+        _ = [E4, F4, G4, Fs4, C6]
     }
 
     // MARK: - Song loading (call from main thread before engine starts)
