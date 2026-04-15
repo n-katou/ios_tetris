@@ -22,12 +22,7 @@ struct GameView: View {
                     Spacer()
 
                     // Next piece
-                    VStack(alignment: .center, spacing: 4) {
-                        Text("NEXT")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        NextPieceView(piece: vm.next)
-                    }
+                    NextPieceView(piece: vm.next)
 
                     Spacer()
 
@@ -59,9 +54,13 @@ struct GameView: View {
                 .padding(.top, 8)
                 .padding(.bottom, 8)
 
-                // Board
+                // Board — tap: rotate / swipe: move or drop
                 BoardView(vm: vm)
                     .padding(.horizontal, 16)
+                    .onTapGesture {
+                        guard vm.state == .playing else { return }
+                        vm.rotate()
+                    }
                     .gesture(swipeGesture)
 
                 // Controls
