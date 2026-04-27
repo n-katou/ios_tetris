@@ -8,8 +8,8 @@ struct OnboardingView: View {
         (
             "hand.tap",
             .cyan,
-            "タップ & スワイプで操作",
-            "ボードをタップ→回転、左右スワイプ→移動、下スワイプ→ハードドロップ。ボタンでも同じ操作ができます。"
+            "タップ・スワイプ・長押し",
+            "タップ→回転、長押し→高速連続回転、左右スワイプ→移動、下スワイプ→ハードドロップ。ボタンでも同じ操作ができます。"
         ),
         (
             "arrow.left.and.right",
@@ -20,20 +20,20 @@ struct OnboardingView: View {
         (
             "square.on.square",
             .purple,
-            "ホールド",
-            "HOLDボタンで今のピースをストック。1ピースにつき1回使えます。ピンチのときに切り替えましょう。"
+            "ホールド & 7-bagランダム",
+            "HOLDボタンで今のピースをストック。1ピースにつき1回使えます。ピースは7種1セットで偏りなく出現します。"
         ),
         (
             "flame.fill",
             .orange,
-            "コンボでボーナス",
-            "ラインを連続消去するとコンボボーナスが加算されます。連続消去数 × 50 × レベル が加点されます。"
+            "コンボ & スコアポップアップ",
+            "ラインを連続消去するとコンボボーナス加算。消去後は獲得ポイントがポップアップ表示。NEW RECORDも光ります！"
         ),
         (
             "chart.line.uptrend.xyaxis",
             .green,
-            "レベルアップ",
-            "10ライン消去ごとにレベルが上がり、落下速度が増します。上を目指してハイスコアに挑戦！"
+            "レベルアップ & 背景演出",
+            "10ライン消去ごとにレベルが上がり落下速度と背景色が変化。右上の⚙️から BGM・効果音・バイブ・ゴーストのON/OFFも変更できます。"
         ),
     ]
 
@@ -41,7 +41,6 @@ struct OnboardingView: View {
         ZStack {
             Color.black.ignoresSafeArea()
 
-            // 背景グロー
             RadialGradient(
                 colors: [Color.cyan.opacity(0.18), Color.clear],
                 center: .top, startRadius: 0, endRadius: 480
@@ -59,7 +58,6 @@ struct OnboardingView: View {
                     Circle()
                         .fill(Color.cyan.opacity(0.07))
                         .frame(width: 160, height: 160)
-                    // テトリミノ風アイコン
                     Image(systemName: "square.grid.2x2.fill")
                         .font(.system(size: 52, weight: .semibold))
                         .foregroundStyle(
@@ -131,7 +129,8 @@ struct OnboardingView: View {
         }
         .preferredColorScheme(.dark)
         .onAppear {
-            let total = cards.count + 2   // logo + cards + button
+            visibleStep = -1
+            let total = cards.count + 2
             for step in 0..<total {
                 DispatchQueue.main.asyncAfter(deadline: .now() + Double(step) * 0.16) {
                     visibleStep = step

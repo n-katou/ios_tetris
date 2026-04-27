@@ -2,16 +2,14 @@ import SwiftUI
 
 @main
 struct ios_tetrisApp: App {
-    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @State private var showGame = false
 
     var body: some Scene {
         WindowGroup {
-            if hasSeenOnboarding {
+            if showGame {
                 GameView()
             } else {
-                OnboardingView {
-                    hasSeenOnboarding = true
-                }
+                OnboardingView { showGame = true }
             }
         }
     }

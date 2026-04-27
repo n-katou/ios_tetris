@@ -7,6 +7,7 @@ struct GameView: View {
     @State private var comboOpacity: Double = 0
     @State private var popupOpacity: Double = 0
     @State private var popupOffset: CGFloat = 0
+    @State private var spinTimer: Timer? = nil
 
     var body: some View {
         ZStack {
@@ -25,6 +26,15 @@ struct GameView: View {
                     BoardView(vm: vm)
                         .padding(.horizontal, 16)
                         .onTapGesture { if vm.state == .playing { vm.rotate() } }
+                        .onLongPressGesture(minimumDuration: 0.3, pressing: { isPressing in
+                            if !isPressing { spinTimer?.invalidate(); spinTimer = nil }
+                        }, perform: {
+                            let gameVM = vm
+                            spinTimer?.invalidate()
+                            spinTimer = Timer.scheduledTimer(withTimeInterval: 0.08, repeats: true) { _ in
+                                DispatchQueue.main.async { if gameVM.state == .playing { gameVM.rotate() } }
+                            }
+                        })
                         .gesture(swipeGesture)
 
                     // Score popup
